@@ -13,6 +13,16 @@
                         autocomplete="off">
                         @csrf
                         <div class="form-group">
+                            <label>Id Number</label>
+                            <input type="text" class="form-control" placeholder="Id Number" name="naid_numberme"
+                                value="{{ $student->id_number }}" required>
+                            @error('id_number')
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label>Student Name</label>
                             <input type="text" class="form-control" placeholder="Student Name" name="name"
                                 value="{{ $student->name }}" required>

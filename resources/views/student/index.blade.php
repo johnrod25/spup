@@ -26,7 +26,7 @@
                         <tbody>
                             @forelse ($students as $student)
                                 <tr>
-                                    <td class="id">{{ $student->id }}</td>
+                                    <td class="id">{{ $student->id_number }}</td>
                                     <td>{{ $student->name }}</td>
                                     <td class="text-capitalize">{{ $student->gender }}</td>
                                     <td>{{ $student->class }}</td>

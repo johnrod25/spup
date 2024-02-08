@@ -13,6 +13,16 @@
                     autocomplete="off">
                     @csrf
                     <div class="form-group">
+                        <label>Id Number</label>
+                        <input type="text" class="form-control @error('id_number') isinvalid @enderror" name="id_number"
+                            value="{{ $auther->id_number }}" required>
+                        @error('id_number')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label>Staff Name</label>
                         <input type="text" class="form-control @error('name') isinvalid @enderror" name="name"
                             value="{{ $auther->name }}" required>

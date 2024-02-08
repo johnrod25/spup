@@ -37,7 +37,7 @@ start server
 ```
 php artisan serve
 ```
-credentails
+credentailsclear
 ```
 username: tauseedzaman
 password: password

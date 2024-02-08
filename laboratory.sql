@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2024 at 03:57 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Feb 08, 2024 at 03:59 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dblibrary`
+-- Database: `laboratory`
 --
 
 -- --------------------------------------------------------
@@ -29,7 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `authers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_number` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -38,18 +39,21 @@ CREATE TABLE `authers` (
 -- Dumping data for table `authers`
 --
 
-INSERT INTO `authers` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Ms. Kenyatta Spinka', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(2, 'Whitney Goyette', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(3, 'Prof. Emerson Buckridge II', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(4, 'Gail Emmerich', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(5, 'Louie Krajcik MD', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(6, 'Angelita Altenwerth', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(7, 'Sophia Pouros I', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(8, 'Prof. Patience Will', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(9, 'Jarrod O\'Connell', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(10, 'Dr. Yasmeen Goldner PhD', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
-(11, 'Joyce Gammaru', '2024-01-21 03:08:33', '2024-01-21 03:08:33');
+INSERT INTO `authers` (`id`, `id_number`, `name`, `created_at`, `updated_at`) VALUES
+(1, 0, 'Ms. Kenyatta Spinka', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(2, 0, 'Whitney Goyette', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(3, 0, 'Prof. Emerson Buckridge II', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(4, 0, 'Gail Emmerich', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(5, 0, 'Louie Krajcik MD', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(6, 0, 'Angelita Altenwerth', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(7, 0, 'Sophia Pouros I', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(8, 0, 'Prof. Patience Will', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(9, 0, 'Jarrod O\'Connell', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(10, 0, 'Dr. Yasmeen Goldner PhD', '2024-01-20 11:53:57', '2024-01-20 11:53:57'),
+(11, 0, 'Joyce Gammaru', '2024-01-21 03:08:33', '2024-01-21 03:08:33'),
+(12, 0, 'sdfsd', '2024-02-07 19:41:35', '2024-02-07 19:41:35'),
+(13, 2343, 'sdsdfsd', '2024-02-07 19:48:40', '2024-02-07 19:50:21'),
+(14, 1234567, 'juan dela cruz', '2024-02-07 19:50:34', '2024-02-07 19:50:34');
 
 -- --------------------------------------------------------
 
@@ -59,14 +63,21 @@ INSERT INTO `authers` (`id`, `name`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `books` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
   `auther_id` bigint(20) UNSIGNED DEFAULT NULL,
   `publisher_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Y',
+  `status` varchar(255) NOT NULL DEFAULT 'Y',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `books`
+--
+
+INSERT INTO `books` (`id`, `name`, `category_id`, `auther_id`, `publisher_id`, `status`, `created_at`, `updated_at`) VALUES
+(12, 'booksss', 11, 14, 11, 'N', '2024-02-07 19:56:40', '2024-02-07 19:56:47');
 
 -- --------------------------------------------------------
 
@@ -80,11 +91,18 @@ CREATE TABLE `book_issues` (
   `book_id` bigint(20) UNSIGNED NOT NULL,
   `issue_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `return_date` timestamp NULL DEFAULT NULL,
-  `issue_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `issue_status` varchar(255) DEFAULT NULL,
   `return_day` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `book_issues`
+--
+
+INSERT INTO `book_issues` (`id`, `student_id`, `book_id`, `issue_date`, `return_date`, `issue_status`, `return_day`, `created_at`, `updated_at`) VALUES
+(1, 20, 12, '2024-02-07 17:00:00', '2024-02-27 17:00:00', 'N', NULL, '2024-02-07 19:56:47', '2024-02-07 19:56:47');
 
 -- --------------------------------------------------------
 
@@ -94,10 +112,17 @@ CREATE TABLE `book_issues` (
 
 CREATE TABLE `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(11, 'books', '2024-02-07 19:55:43', '2024-02-07 19:55:43');
 
 -- --------------------------------------------------------
 
@@ -107,11 +132,11 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -123,7 +148,7 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -151,8 +176,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -164,11 +189,11 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -182,10 +207,17 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `publishers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `publishers`
+--
+
+INSERT INTO `publishers` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(11, 'cagayan', '2024-02-07 19:56:09', '2024-02-07 19:56:09');
 
 -- --------------------------------------------------------
 
@@ -195,8 +227,8 @@ CREATE TABLE `publishers` (
 
 CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `return_days` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fine` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `return_days` varchar(255) NOT NULL,
+  `fine` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -216,16 +248,24 @@ INSERT INTO `settings` (`id`, `return_days`, `fine`, `created_at`, `updated_at`)
 
 CREATE TABLE `students` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `age` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `class` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_number` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `age` varchar(255) NOT NULL,
+  `gender` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `class` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `id_number`, `name`, `age`, `gender`, `email`, `phone`, `address`, `class`, `created_at`, `updated_at`) VALUES
+(20, 1231213, 'shkjd', '32', 'male', 'skldfsd@fdsf.csd', '0293403', 'skfskj', '3434', '2024-02-07 19:53:29', '2024-02-07 19:53:29');
 
 -- --------------------------------------------------------
 
@@ -235,9 +275,9 @@ CREATE TABLE `students` (
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -341,25 +381,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `authers`
 --
 ALTER TABLE `authers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `book_issues`
 --
 ALTER TABLE `book_issues`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -383,7 +423,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `publishers`
 --
 ALTER TABLE `publishers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -395,7 +435,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `users`

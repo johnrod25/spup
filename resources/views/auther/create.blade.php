@@ -15,6 +15,15 @@
                 <form class="yourform" action="{{ route('authors.store') }}" method="post" autocomplete="off">
                     @csrf
                     <div class="form-group">
+                        <label>Id Number</label>
+                        <input type="text" class="form-control @error('id_number') isinvalid @enderror" placeholder="Id Number" name="id_number" value="{{ old('id_number') }}" required>
+                        @error('id_number')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label>Staff Name</label>
                         <input type="text" class="form-control @error('name') isinvalid @enderror" placeholder="Staff Name" name="name" value="{{ old('name') }}" required>
                         @error('name')

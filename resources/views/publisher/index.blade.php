@@ -1,24 +1,27 @@
-@extends('layouts.app')
+@extends('layouts.header')
 @section('content')
-    <div id="admin-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h2 class="admin-heading">All Location</h2>
-                </div>
-                <div class="offset-md-7 col-md-2">
-                    <a class="add-new" href="{{ route('publisher.create') }}">Add Location</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="message"></div>
-                    <table class="content-table">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+     <!-- Main content -->
+    <section class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+            <div class="card">               
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h3>All Location</h3>
+                        <a class="add-new btn btn-primary" href="{{ route('publisher.create') }}"><i class="fas fa-plus"></i> Add Location</a>
+                    </div>
+                    <hr class="hr">
+                    <table class="table table-bordered table-striped table-hover">
                         <thead>
+                            <tr>
                             <th>No.</th>
                             <th>Location Name</th>
                             <th>Edit</th>
                             <th>Delete</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @forelse ($publishers as $publisher)
@@ -44,9 +47,18 @@
                         </tbody>
                     </table>
                     {{ $publishers->links('vendor/pagination/bootstrap-4') }}
-                </div>
+                    </div>
+                <!-- /.card-body -->
             </div>
+            <!-- /.card -->
         </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
     </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 @endsection
-

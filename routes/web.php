@@ -3,6 +3,7 @@
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\AutherController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\BookIssueController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\dashboardController;
@@ -32,10 +33,18 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/Change-password', [LoginController::class, 'changePassword'])->name('change_password');
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('change-password',[dashboardController::class,'change_password_view'])->name('change_password_view');
     Route::post('change-password',[dashboardController::class,'change_password'])->name('change_password');
     Route::get('/dashboard', [dashboardController::class, 'index'])->name('dashboard');
+
+    // Staff CRUD
+    Route::get('/staff', [AutherController::class, 'index'])->name('staff');
+    Route::get('/staff/create', [AutherController::class, 'create'])->name('staff.create');
+    Route::get('/staff/edit/{auther}', [AutherController::class, 'edit'])->name('staff.edit');
+    Route::post('/staff/update/{id}', [AutherController::class, 'update'])->name('staff.update');
+    Route::post('/staff/delete/{id}', [AutherController::class, 'destroy'])->name('staff.destroy');
+    Route::post('/staff/create', [AutherController::class, 'store'])->name('staff.store');
 
     // author CRUD
     Route::get('/authors', [AutherController::class, 'index'])->name('authors');
@@ -52,18 +61,25 @@ Route::middleware('auth')->group(function () {
     Route::post('/publisher/update/{id}', [PublisherController::class, 'update'])->name('publisher.update');
     Route::post('/publisher/delete/{id}', [PublisherController::class, 'destroy'])->name('publisher.destroy');
     Route::post('/publisher/create', [PublisherController::class, 'store'])->name('publisher.store');
-
+    
     // Category CRUD
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
     Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::get('/category/views/{id}', [CategoryController::class, 'views'])->name('category.views');
     Route::get('/category/edit/{category}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::post('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
     Route::post('/category/create', [CategoryController::class, 'store'])->name('category.store');
-
-
-
-
+    
+    // Inventory CRUD
+    Route::get('/item', [InventoryController::class, 'index'])->name('inventory');
+    Route::get('/item/create', [InventoryController::class, 'create'])->name('inventory.create');
+    Route::get('/item/edit/{book}', [InventoryController::class, 'edit'])->name('inventory.edit');
+    Route::post('/inventory/update/{id}', [InventoryController::class, 'update'])->name('inventory.update');
+    Route::post('/inventory/delete/{id}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
+    Route::post('/item/create', [InventoryController::class, 'store'])->name('inventory.store');
+    
+    
     // books CRUD
     Route::get('/books', [BookController::class, 'index'])->name('books');
     Route::get('/book/create', [BookController::class, 'create'])->name('book.create');
@@ -81,22 +97,29 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/create', [StudentController::class, 'store'])->name('student.store');
     Route::get('/student/show/{id}', [StudentController::class, 'show'])->name('student.show');
 
-
-
+    //transactions
+    Route::get('/borrows', [BookIssueController::class, 'index'])->name('transactions');
+    Route::get('/borrow/create', [BookIssueController::class, 'create'])->name('transaction.create');
+    Route::get('/transaction/updateitem/{id}', [BookIssueController::class, 'updateitem'])->name('transaction.updateitem');
+    Route::get('/borrow/edit/{id}', [BookIssueController::class, 'edit'])->name('transaction.edit');
+    Route::post('/transaction/update/{id}', [BookIssueController::class, 'update'])->name('transaction.update');
+    Route::post('/transaction/delete/{id}', [BookIssueController::class, 'destroy'])->name('transaction.destroy');
+    Route::post('/borrow/create', [BookIssueController::class, 'store'])->name('transaction.store');
+    
     Route::get('/book_issue', [BookIssueController::class, 'index'])->name('book_issued');
     Route::get('/book-issue/create', [BookIssueController::class, 'create'])->name('book_issue.create');
     Route::get('/book-issue/edit/{id}', [BookIssueController::class, 'edit'])->name('book_issue.edit');
     Route::post('/book-issue/update/{id}', [BookIssueController::class, 'update'])->name('book_issue.update');
     Route::post('/book-issue/delete/{id}', [BookIssueController::class, 'destroy'])->name('book_issue.destroy');
     Route::post('/book-issue/create', [BookIssueController::class, 'store'])->name('book_issue.store');
-
+    
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports');
     Route::get('/reports/Date-Wise', [ReportsController::class, 'date_wise'])->name('reports.date_wise');
     Route::post('/reports/Date-Wise', [ReportsController::class, 'generate_date_wise_report'])->name('reports.date_wise_generate');
     Route::get('/reports/monthly-Wise', [ReportsController::class, 'month_wise'])->name('reports.month_wise');
     Route::post('/reports/monthly-Wise', [ReportsController::class, 'generate_month_wise_report'])->name('reports.month_wise_generate');
     Route::get('/reports/not-returned', [ReportsController::class, 'not_returned'])->name('reports.not_returned');
-
+    
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings');
 });

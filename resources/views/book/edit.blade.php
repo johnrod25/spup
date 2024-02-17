@@ -1,19 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.header')
 @section('content')
-    <div id="admin-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h2 class="admin-heading">Update Item</h2>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+     <!-- Main content -->
+    <section class="content-header">
+    <div class="container-fluid">
+        <div class="col-12">
+            <div class="card bg-light pb-5">               
+                <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h3>Update Item</h3>
                 </div>
-            </div>
+                <hr class="hr">
             <div class="row">
                 <div class="offset-md-3 col-md-6">
                     <form class="yourform" action="{{ route('book.update', $book->id) }}" method="post"
                         autocomplete="off">
                         @csrf
                         <div class="form-group">
-                            <label>Description</label>
+                            <label>Quantity</label>
+                            <input type="number" class="form-control @error('name') isinvalid @enderror"
+                                placeholder="Quantity" name="quantity" value="{{ $book->quantity }}" >
+                            @error('quantity')
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Item Name</label>
                             <input type="text" class="form-control @error('name') isinvalid @enderror"
                                 placeholder="Item Name" name="name" value="{{ $book->name }}" >
                             @error('name')
@@ -78,11 +93,23 @@
                                 </div>
                             @enderror
                         </div>
-                        <input type="submit" name="save" class="btn btn-danger" value="Update" >
+                        <input type="submit" name="save" class="btn btn-success" value="Update" >
                     </form>
                 </div>
             </div>
+            </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
     </div>
-
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 @endsection
+

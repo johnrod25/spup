@@ -7,6 +7,7 @@ use App\Http\Requests\Storebook_issueRequest;
 use App\Http\Requests\Updatebook_issueRequest;
 use App\Models\auther;
 use App\Models\book;
+use App\Models\category;
 use App\Models\settings;
 use App\Models\student;
 use \Illuminate\Http\Request;
@@ -20,8 +21,8 @@ class BookIssueController extends Controller
      */
     public function index()
     {
-        return view('book.issueBooks', [
-            'books' => book_issue::Paginate(5)
+        return view('inventory.issueBooks', [
+            'books' => book_issue::Paginate(10)
         ]);
     }
 
@@ -32,12 +33,17 @@ class BookIssueController extends Controller
      */
     public function create()
     {
-        return view('book.issueBook_add', [
+        return view('inventory.issueBook_add', [
             'students' => student::latest()->get(),
             'books' => book::where('status', 'Y')->get(),
+            'categories' => category::latest()->get(),
         ]);
     }
 
+    public function updateitem($id)
+    {
+        return response(['success' => 'Employee created successfully.','items' => book::where('category_id',$id)->get()]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -46,20 +52,27 @@ class BookIssueController extends Controller
      */
     public function store(Storebook_issueRequest $request)
     {
+        $book = book::find($request->book_id);
+        if($book->quantity >= $request->quantity){
+        $book->status = 'N';
+        $book->quantity = $book->quantity - $request->quantity;
+        // $book->quantity = '1';
+        $book->save();
         $issue_date = date('Y-m-d');
         $return_date = date('Y-m-d', strtotime("+" . (settings::latest()->first()->return_days) . " days"));
         $data = book_issue::create($request->validated() + [
             'student_id' => $request->student_id,
             'book_id' => $request->book_id,
+            'quantity' => $request->quantity,
             'issue_date' => $issue_date,
             'return_date' => $return_date,
             'issue_status' => 'N',
         ]);
         $data->save();
-        $book = book::find($request->book_id);
-        $book->status = 'N';
-        $book->save();
-        return redirect()->route('book_issued');
+        return redirect()->route('transactions');
+    }else{
+        return redirect()->back()->withErrors(['error_message' => 'Please select a quantity lower than stocks.']);
+    }
     }
 
     /**
@@ -75,7 +88,7 @@ class BookIssueController extends Controller
         $last_date = date_create($book->return_date);
         $diff = date_diff($first_date, $last_date);
         $fine = (settings::latest()->first()->fine * $diff->format('%a'));
-        return view('book.issueBook_edit', [
+        return view('inventory.issueBook_edit', [
             'book' => $book,
             'fine' => $fine,
         ]);
@@ -98,7 +111,7 @@ class BookIssueController extends Controller
         $bookk = book::find($book->book_id);
         $bookk->status= 'Y';
         $bookk->save();
-        return redirect()->route('book_issued');
+        return redirect()->route('transactions');
     }
 
     /**
@@ -110,6 +123,6 @@ class BookIssueController extends Controller
     public function destroy($id)
     {
         book_issue::find($id)->delete();
-        return redirect()->route('book_issued');
+        return redirect()->route('transactions');
     }
 }

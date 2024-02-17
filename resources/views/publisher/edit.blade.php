@@ -1,12 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.header')
 @section('content')
-<div id="admin-content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <h2 class="admin-heading">Update Location</h2>
-            </div>
-        </div>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+     <!-- Main content -->
+    <section class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+            <div class="card pb-5">               
+                <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h3>Update Location</h3>
+                    <a class="add-new btn btn-primary" href="{{ route('categories') }}"><i class="fas fa-plus"></i> All Location</a>
+                </div>
+                <hr class="hr">
         <div class="row">
             <div class="offset-md-3 col-md-6">
                 <form class="yourform" action="{{ route('publisher.update', $publisher->id) }}" method="post"
@@ -22,10 +29,25 @@
                             </div>
                         @enderror
                     </div>
-                    <input type="submit" name="submit" class="btn btn-danger" value="Update" required>
+                    <input type="submit" name="submit" class="btn btn-success" value="Update" required>
                 </form>
             </div>
         </div>
+
+        
+        
+        </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
     </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
 </div>
+<!-- /.content-wrapper -->
 @endsection

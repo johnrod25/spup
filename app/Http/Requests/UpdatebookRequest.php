@@ -25,6 +25,7 @@ class UpdatebookRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'type' => 'required',
             'category_id' => 'required',
             'author_id' => 'required',
             'publisher_id' => 'required',

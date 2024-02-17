@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\auther;
+use App\Models\User;
 use App\Http\Requests\StoreautherRequest;
 use App\Http\Requests\UpdateautherRequest;
 
@@ -15,8 +16,8 @@ class AutherController extends Controller
      */
     public function index()
     {
-        return view('auther.index', [
-            'authors' => auther::Paginate(5)
+        return view('staff.index', [
+            'authors' => auther::Paginate(10)
         ]);
     }
 
@@ -27,7 +28,7 @@ class AutherController extends Controller
      */
     public function create()
     {
-        return view('auther.create');
+        return view('staff.create');
     }
 
     /**
@@ -40,7 +41,15 @@ class AutherController extends Controller
     {
         auther::create($request->validated());
 
-        return redirect()->route('authors');
+        $data = User::create($request->validated() + [
+            'name' => $request->name,
+            'username' => $request->id_number,
+            'password' => bcrypt($request->name.$request->id_number),
+            'usertype' => 2,
+        ]);
+        $data->save();
+
+        return redirect()->route('staff');
     }
     /**
      * Show the form for editing the specified resource.
@@ -50,7 +59,7 @@ class AutherController extends Controller
      */
     public function edit(auther $auther)
     {
-        return view('auther.edit', [
+        return view('staff.edit', [
             'auther' => $auther
         ]);
     }
@@ -65,10 +74,11 @@ class AutherController extends Controller
     public function update(UpdateautherRequest $request, $id)
     {
         $auther = auther::find($id);
+        $auther->id_number = $request->id_number;
         $auther->name = $request->name;
         $auther->save();
 
-        return redirect()->route('authors');
+        return redirect()->route('staff');
     }
 
     /**
@@ -79,6 +89,6 @@ class AutherController extends Controller
     public function destroy($id)
     {
         auther::findorfail($id)->delete();
-        return redirect()->route('authors');
+        return redirect()->route('staff');
     }
 }

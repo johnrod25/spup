@@ -16,14 +16,26 @@ class dashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard', [
-            'authors' => auther::count(),
-            'publishers' => publisher::count(),
-            'categories' => category::count(),
-            'books' => book::count(),
-            'students' => student::count(),
-            'issued_books' => book_issue::count(),
-        ]);
+        $usertype = session()->get('usertype');
+            if($usertype == 1){
+                return view('dashboard', [
+                    'authors' => auther::count(),
+                    'publishers' => publisher::count(),
+                    'categories' => category::count(),
+                    'books' => book::count(),
+                    'students' => student::count(),
+                    'issued_books' => book_issue::count(),
+                ]);
+            } else {
+                return view('staffportal.dashboard', [
+                    'authors' => auther::count(),
+                    'publishers' => publisher::count(),
+                    'categories' => category::count(),
+                    'books' => book::count(),
+                    'students' => student::count(),
+                    'issued_books' => book_issue::count(),
+                ]);
+            }
     }
 
     public function change_password_view()

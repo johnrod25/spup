@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\book;
 use App\Models\category;
 use App\Http\Requests\StorecategoryRequest;
 use App\Http\Requests\UpdatecategoryRequest;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 class CategoryController extends Controller
 {
     /**
@@ -16,11 +17,21 @@ class CategoryController extends Controller
     public function index()
     {
         return view('category.index', [
-            'categories' => category::Paginate(5)
+            'categories' => category::get()
         ]);
 
     }
 
+    public function views($id): View
+    {
+        $items = book::where('category_id', $id)->Paginate(5);
+        $cat_name = category::where('id', $id)->get();
+        return view('category.items', [
+            'books' => $items,
+            'cat_name' =>$cat_name[0]['name'],
+        ]);
+
+    }
     /**
      * Show the form for creating a new resource.
      *

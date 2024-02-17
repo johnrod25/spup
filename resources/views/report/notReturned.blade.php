@@ -13,7 +13,7 @@
                         <table class="content-table">
                             <thead>
                                 <th>No.</th>
-                                <th>Student Name</th>
+                                <th>Faculty Name</th>
                                 <th>Item</th>
                                 <th>Phone</th>
                                 <th>Email</th>
@@ -23,6 +23,7 @@
                             </thead>
                             <tbody>
                                 @forelse ($books as $book)
+                                @if($book->issue_status == 'N')
                                     <tr>
                                         <td>{{ $book->id }}</td>
                                         <td>{{ $book->student->name }}</td>
@@ -31,15 +32,16 @@
                                         <td>{{ $book->student->email }}</td>
                                         <td>{{ $book->issue_date->format('d M, Y') }}</td>
                                         <td>{{ $book->return_date->format('d M, Y') }}</td>
-                                        <td>@php $date1 = date_create(date('Y-m-d'));
+                                        <td><?php $date1 = date_create(date('Y-m-d'));
                                             $date2 = date_create($book->return_date->format('d-m-Y'));
-                                            if($date1 > $date2){
+                                            if($date1 < $date2){
                                               $diff = date_diff($date1,$date2);
                                               echo $days = $diff->format('%a days');
                                             }else{
                                               echo '0 days';
-                                            } @endphp</td>
+                                            } ?></td>
                                     </tr>
+                                @endif
                                 @empty
                                     <tr>
                                         <td colspan="10">No Record Found!</td>

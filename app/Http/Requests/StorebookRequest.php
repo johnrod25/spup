@@ -25,6 +25,9 @@ class StorebookRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'quantity' => 'required',
+            'type' => 'required',
+            'status2' => 'required',
             'category_id' => 'required',
             'auther_id' => 'required',
             'publisher_id' => 'required',

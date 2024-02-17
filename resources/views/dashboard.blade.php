@@ -1,62 +1,79 @@
-@extends('layouts.app')
+@extends('layouts.header')
 @section('content')
-    <div id="admin-content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h2 class="admin-heading">Dashboard</h2>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content-header">
+        <div class="container-fluid mt-2">
+            <!-- Info boxes -->
+            <div class="row p-3">
+                <!-- fix for small devices only -->
+                <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-6">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>        
+                    <div class="info-box-content">
+                        <span class="info-box-text">Staff</span>
+                        <span class="info-box-number">{{ $authors }}</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-6">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-globe"></i></span>        
+                    <div class="info-box-content">
+                        <span class="info-box-text">Location</span>
+                        <span class="info-box-number">{{ $publishers }}</span>
+                    </div>
+                    </div>
+                </div>
+                <!-- <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-6">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-light elevation-1"><i class="fas fa-list"></i></span>        
+                    <div class="info-box-content">
+                        <span class="info-box-text">Categories</span>
+                        <span class="info-box-number">{{ $categories }}</span>
+                    </div>
+                    </div>
+                </div> -->
+                <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-6">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-secondary elevation-1"><i class="fas fa-book"></i></span>        
+                    <div class="info-box-content">
+                        <span class="info-box-text">Inventory</span>
+                        <span class="info-box-number">{{ $books }}</span>
+                    </div>
+                    </div>
+                </div>
+                <!-- <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-6">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>        
+                    <div class="info-box-content">
+                        <span class="info-box-text">Faculty</span>
+                        <span class="info-box-number">{{ $students }}</span>
+                    </div>
+                    </div>
+                </div> -->
+                <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-6">
+                    <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-handshake"></i></span>        
+                    <div class="info-box-content">
+                        <span class="info-box-text">Transactions</span>
+                        <span class="info-box-number">{{ $issued_books }}</span>
+                    </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3 mb-4">
-                    <div class="card" style="width: 14rem; margin: 0 auto;">
-                        <div class="card-body text-center">
-                            <p class="card-text">{{ $authors }}</p>
-                            <h5 class="card-title mb-0">Staff</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card" style="width: 14rem; margin: 0 auto;">
-                        <div class="card-body text-center">
-                            <p class="card-text">{{ $publishers }}</p>
-                            <h5 class="card-title mb-0">Location</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card" style="width: 14rem; margin: 0 auto;">
-                        <div class="card-body text-center">
-                            <p class="card-text">{{ $categories }}</p>
-                            <h5 class="card-title mb-0">Categories</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card" style="width: 14rem; margin: 0 auto;">
-                        <div class="card-body text-center">
-                            <p class="card-text">{{ $books }}</p>
-                            <h5 class="card-title mb-0">Inventory</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card" style="width: 14rem; margin: 0 auto;">
-                        <div class="card-body text-center">
-                            <p class="card-text">{{ $students }}</p>
-                            <h5 class="card-title mb-0">Students</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card" style="width: 14rem; margin: 0 auto;">
-                        <div class="card-body text-center">
-                            <p class="card-text">{{ $issued_books }}</p>
-                            <h5 class="card-title mb-0">Transactions</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <!-- /.row -->
         </div>
-    </div>
+    </section>
+     <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
 @endsection

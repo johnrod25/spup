@@ -20,7 +20,7 @@ class BookController extends Controller
     {
 
         return view('book.index', [
-            'books' => book::Paginate(5)
+            'books' => book::get()
         ]);
     }
 

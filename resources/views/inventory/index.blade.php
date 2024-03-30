@@ -34,7 +34,7 @@
                                 <!-- <td class="id">{{ $book->id }}</td> -->
                                 <td>{{ $book->quantity.' '.$book->type }}</td>
                                 <td>{{ $book->name }}</td>
-                                <td>{{ $book->publisher->name }}</td>
+                                <td>{{ $book->location }}</td>
                                 <td>{{ $book->category->name }}</td>
                                 <td>{{ $book->auther->name }}</td>
                                 <td>

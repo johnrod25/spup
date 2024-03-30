@@ -10,7 +10,7 @@
                 <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <h3>Add Items</h3>
-                    <a class="add-new btn btn-primary" href="{{ route('inventory') }}">All Items</a>
+                    <a class="add-new btn btn-primary" href="{{ route('category.views', $cat_id) }}">All Items</a>
                 </div>
                 <hr class="hr">
                 <div class="row">
@@ -19,10 +19,10 @@
                         @csrf
                         <div class="form-group">
                             <label>Category</label>
-                            <select class="form-control @error('category_id') isinvalid @enderror " name="category_id" required>
+                            <select class="form-control @error('category_id') isinvalid @enderror " name="category_id" readonly required>
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" <?= $cat_id == $category->id ? 'selected':'';  ?> >{{ $category->name }}</option>
                                 @endforeach
                             </select>
                             @error('category_id')
@@ -65,23 +65,23 @@
                        </div>
                         <div class="form-group">
                             <label>Location</label>
-                            <select class="form-control @error('publisher_id') isinvalid @enderror " name="publisher_id" required>
-                                <option value="">Select Location</option>
-                                @foreach ($publishers as $publisher)
-                                    <option value='{{ $publisher->id }}'>{{ $publisher->name }}</option>";
-                                @endforeach
-                            </select>
-                            @error('publisher_id')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <input type="text" class="form-control @error('location') isinvalid @enderror"
+                                    placeholder="Location" name="location" value="{{ old('location') }}" required>
+                                @error('location')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                         </div>
                         <div class="form-group">
                             <label>Status</label>
-                            <input type="text" class="form-control @error('status2') isinvalid @enderror"
-                                placeholder="Status" name="status2" value="{{ old('status2') }}" required>
-                            @error('status')
+                            <!-- <input type="text" class="form-control @error('status2') isinvalid @enderror"
+                                placeholder="Status" name="status2" value="{{ old('status2') }}" required> -->
+                            <select class="form-control @error('status2') isinvalid @enderror " name="status2" required>
+                                <option value="Functional">Functional</option>
+                                <option value="Not Functional">Not Functional</option>
+                            </select>
+                            @error('status2')
                                 <div class="alert alert-danger" role="alert">
                                     {{ $message }}
                                 </div>
@@ -89,7 +89,7 @@
                         </div>
                         <div class="form-group">
                             <label>Inventory Done by</label>
-                            <select class="form-control @error('auther_id') isinvalid @enderror " name="auther_id" required>
+                            <select class="form-control @error('auther_id') isinvalid @enderror " name="auther_id">
                                 <option value="">Select Staff</option>
                                 @foreach ($authors as $author)
                                     <option value='{{ $author->id }}'>{{ $author->name }}</option>";

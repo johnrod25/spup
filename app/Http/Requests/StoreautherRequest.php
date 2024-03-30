@@ -24,8 +24,9 @@ class StoreautherRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_number' => "required",
-            'name' => 'required|unique:authers,name,except,id'
+            'id_number' => "required|unique:authers",
+            'name' => 'required|unique:authers,name,except,id',
+            'username' => "required"
         ];
     }
 }

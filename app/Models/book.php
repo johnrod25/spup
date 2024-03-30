@@ -37,10 +37,10 @@ class book extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function publisher(): BelongsTo
-    {
-        return $this->belongsTo(publisher::class);
-    }
+    // public function publisher(): BelongsTo
+    // {
+    //     return $this->belongsTo(publisher::class);
+    // }
 
 
 

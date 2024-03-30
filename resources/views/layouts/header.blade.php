@@ -35,6 +35,32 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user-menu">
+            <a href="#" class="nav-link dropdown-toggle btn btn-default btn-flat rounded mx-3" data-toggle="dropdown">
+                <i class="fa fa-solid fa-bell text-success" style="font-size:20px;"></i>
+                <span class="text-primary" id="notif_count"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <li class="user-header">
+                <table class="table table-bordered table-striped table-hover">
+                    <tbody id="notif_tbody">
+                        <tr>
+                            <td>No notification</td>
+                        </tr>
+                    </tbody>
+                </table>
+              </li>
+              <li class="user-footer">
+                @if(session()->get('usertype') == 1)
+                <a href="{{ route('borrows') }}"  class="btn btn-default btn-flat rounded w-100">
+                @else
+                <a href="{{ route('transactions.staff') }}"  class="btn btn-default btn-flat rounded w-100">
+                @endif
+                    <p>View All</p>
+                </a> 
+              </li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('assets/dist/img/user-solid.svg') }}" class="user-image img-circle elevation-2" alt="User Image">      
               <span class="d-none d-md-inline text-capitalize">{{ auth()->user()->name }}</span>
@@ -69,7 +95,6 @@
 <aside class="main-sidebar sidebar-dark-warning elevation-4 bg-success">
     <!-- Brand Logo -->
     <a href="{{ route('dashboard') }}" class="brand-link bg-transparent">
-      <!-- <img src="{{ asset('assets/dist/img/logo.jpg') }}" alt="RBASASHS" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
       <img src="{{ asset('images/library.png') }}" class="w-100 h-100 rounded elevation-3" style="opacity: .8;">
       <!-- <span class="brand-text font-weight-light">SPUP Laboratory</span> -->
     </a>
@@ -98,19 +123,21 @@
                         <p class="text-white">Dashboard</p>
                     </a>
                 </li>
+                @if(session()->get('usertype') == 1)
                 <li class="nav-item">
                     <a href="{{ route('staff') }}" class="nav-link text-white">
                         <i class="nav-icon fas fa-users"></i>
                         <p class="text-white">Staff</p>
                     </a>
                 </li>
+                @endif
                 <!-- <li class="nav-item">
                     <a href="{{ route('publishers') }}" class="nav-link text-white">
                         <i class="nav-icon fas fa-globe"></i>
                         <p class="text-white">Location</p>
                     </a>
                 </li> -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="#" class="nav-link text-white">
                         <i class="nav-icon fas fa-book"></i>
                         <p class="text-white">Inventory<i class="right fas fa-angle-left"></i></p>
@@ -131,7 +158,7 @@
                             </a>
                         </li>
                     </ul>   
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a href="#" class="nav-link text-white">
                         <i class="nav-icon fas fa-book"></i>
@@ -192,19 +219,32 @@
                         <p class="text-white">Faculty</p>
                     </a>
                 </li> -->
+                @if(session()->get('usertype') == 1)
                 <li class="nav-item">
-                    <a href="{{ route('transactions') }}" class="nav-link text-white">
-                        <i class="nav-icon fas fa-handshake"></i>
-                        <p class="text-white">Borrow</p>
+                    <a href="{{ route('borrows') }}" class="nav-link text-white">
+                        <i class="nav-icon fas fa-globe"></i>
+                        <p class="text-white">Borrow Request</p>
                     </a>
                 </li>
+                @endif
+                <li class="nav-item">
+                    @if(session()->get('usertype') == 1)
+                    <a href="{{ route('transactions') }}" class="nav-link text-white">
+                    @else
+                    <a href="{{ route('transactions.staff') }}" class="nav-link text-white">
+                    @endif
+                        <i class="nav-icon fas fa-handshake"></i>
+                        <p class="text-white">Transactions</p>
+                    </a>
+                </li>
+                @if(session()->get('usertype') == 1)
                 <li class="nav-item">
                     <a href="{{ route('reports') }}" class="nav-link text-white">
-                        <i class="nav-icon fas fa-file"></i>
-                        <p class="text-white">Reports</p>
+                        <i class="nav-icon fas fa-bug"></i>
+                        <p class="text-white">Reported Items</p>
                     </a>
                 </li>
-
+                @endif
             </ul>
         </nav>
     <!-- /.sidebar-menu -->
@@ -268,6 +308,41 @@
 
 <script>
       $(document).ready(function() {
+
+        setInterval(function () {
+            $.ajax({
+                type: 'get',
+                url: "/notification",
+                success: function(response){
+                    console.log(response.notif)
+                    let tbody = document.getElementById('notif_tbody');
+                    if(response.notif > 0){
+                        // console.log(response.ndata)
+                        document.getElementById('notif_count').innerText =  response.notif;
+                        tbody.innerText =  '';
+                        response.ndata.forEach(function (el){
+                            const tr = document.createElement('tr');
+                            const td_name = document.createElement('td');
+                            const td_desc = document.createElement('td');
+                            const inputName = document.createElement('p');
+                            if(response.role == 1){
+                                inputName.innerHTML = 'Borrow request from '+el.teacher;
+                            }else{
+                                inputName.innerHTML = 'New task from '+el.teacher;
+                            }
+                            td_name.appendChild(inputName);
+
+                            tr.appendChild(td_name);
+                            tbody.appendChild(tr);
+                            console.log(el.teacher)
+                        });
+                    }
+                    // $('#notif_count').val() = response.notif;
+                    // window.location.href = "borrows";
+                }
+            });              
+        }, 2000);
+        
     $('#example').DataTable();
     let notif = JSON.parse(localStorage.getItem('Notif'));
     if(notif != null){
@@ -295,6 +370,27 @@
 
   function errorToast(message){
     Command: toastr["error"](message)
+      toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": false,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+      }
+  }
+
+  function successToast(message){
+    Command: toastr["success"](message)
       toastr.options = {
           "closeButton": false,
           "debug": false,

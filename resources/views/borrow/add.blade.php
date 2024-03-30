@@ -10,8 +10,8 @@
             <div class="card pb-5">               
                 <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <h3>Add Transaction</h3>
-                    <a class="add-new btn btn-primary" href="{{ route('transactions') }}">All Transaction List</a>
+                    <h3>Add Borrow</h3>
+                    <a class="add-new btn btn-primary" href="{{ route('transactions') }}">All Borrowed List</a>
                 </div>
                 <hr class="hr">
             <div class="row">

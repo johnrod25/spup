@@ -16,12 +16,13 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
 
-        return view('inventory.index', [
-            'books' => book::latest()->get()
-        ]);
+        return redirect()->route('category.views', $id);
+        // return view('inventory.index', [
+        //     'books' => book::latest()->get()
+        // ]);
     }
 
     /**
@@ -29,12 +30,12 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         return view('inventory.create',[
             'authors' => auther::latest()->get(),
-            'publishers' => publisher::latest()->get(),
             'categories' => category::latest()->get(),
+            'cat_id' => $id,
         ]);
     }
 
@@ -49,7 +50,7 @@ class InventoryController extends Controller
         book::create($request->validated() + [
             'status' => 'Y'
         ]);
-        return redirect()->route('inventory');
+        return redirect()->route('category.views', $request->category_id);
     }
 
 
@@ -63,7 +64,6 @@ class InventoryController extends Controller
     {
         return view('inventory.edit',[
             'authors' => auther::latest()->get(),
-            'publishers' => publisher::latest()->get(),
             'categories' => category::latest()->get(),
             'book' => $book
         ]);
@@ -83,11 +83,12 @@ class InventoryController extends Controller
         $book->quantity = $request->quantity;
         $book->name = $request->name;
         $book->type = $request->type;
+        $book->status2 = $request->status2;
         $book->auther_id = $request->author_id;
         $book->category_id = $request->category_id;
-        $book->publisher_id = $request->publisher_id;
+        $book->location = $request->location;
         $book->save();
-        return redirect()->route('inventory');
+        return redirect()->route('category.views', $request->category_id);
     }
 
     /**

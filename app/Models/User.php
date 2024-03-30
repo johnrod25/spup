@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -18,12 +20,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'auther_id',
         'name',
         'username',
         'password',
         'usertype',
     ];
 
+    public function auther(): BelongsTo
+    {
+        return $this->belongsTo(auther::class,'auther_id','id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

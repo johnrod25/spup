@@ -11,7 +11,7 @@
                 <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <h3>Manage Transactions</h3>
-                    <a class="add-new btn btn-primary" href="{{ route('transaction.create') }}"><i class="fas fa-plus"></i> Add Transaction</a>
+                    <!-- <a class="add-new btn btn-primary" href="{{ route('transaction.create') }}"><i class="fas fa-plus"></i> Add Transaction</a> -->
                 </div>
                 <hr class="hr">
                 <div class="row">
@@ -19,46 +19,39 @@
                         <table id="example" class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
-                                <th>Id Number</th>
-                                <th>Faculty Name</th>
+                                    <!-- <th>Staff Assigned</th> -->
+                                <th>Requester Name</th>
                                 <th>Item Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
+                                <th>Quantity</th>
                                 <th>Date Issued</th>
                                 <th>Returned Date</th>
                                 <th>Status</th>
                                 <th>Edit</th>
-                                <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($books as $book)
-                                    <tr style='@if (date('Y-m-d') > $book->return_date->format('d-m-Y') && $book->issue_status == 'N') ) background:rgba(255,0,0,0.2) @endif'>
-                                        <td>{{ $book->student->id_number }}</td>
-                                        <td>{{ $book->student->name }}</td>
+                                    <tr <?php if(date('Y-m-d') > date('Y-m-d',strtotime($book->return_date)) && $book->issue_status == 'N'){ echo "style='background:rgba(255,0,0,0.2)'";} ?>>
+                                        <td>{{ $book->teacher }}</td>
                                         <td>{{ $book->book->name }}</td>
-                                        <td>{{ $book->student->phone }}</td>
-                                        <td>{{ $book->student->email }}</td>
-                                        <td>{{ $book->issue_date->format('d M, Y') }}</td>
-                                        <td>{{ $book->return_date->format('d M, Y') }}</td>
+                                        <td>{{ $book->quantity }}</td>
+                                        <td>{{ $book->issue_date }}</td>
+                                        <td>{{ $book->return_date }}</td>
                                         <td>
-                                            @if ($book->issue_status == 'N')
-                                                <span class='badge badge-primary'>Pending</span>
+                                            @if ($book->issue_status == 'P')
+                                                <span class='badge badge-info'>Pending</span>
                                             @elseif ($book->issue_status == 'Y')
                                                 <span class='badge badge-success'>Returned</span>
+                                            @elseif ($book->issue_status == 'D')
+                                                <span class='badge badge-danger'>Rejected</span>
+                                            @elseif ($book->issue_status == 'I')
+                                                <span class='badge badge-primary'>Issued</span>
                                             @else
-                                                <span class='badge badge-danger'>Issued</span>
+                                                <span class='badge badge-danger'>Reported</span>
                                             @endif
                                         </td>
                                         <td class="edit">
-                                            <a href="{{ route('transaction.edit', $book->id) }}" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
-                                        </td>
-                                        <td class="delete">
-                                            <form action="{{ route('transaction.destroy', $book) }}" method="post"
-                                                class="form-hidden">
-                                                <button class="btn btn-danger"> <i class="fas fa-trash"></i> Delete</button>
-                                                @csrf
-                                            </form>
+                                            <a href="{{ route('borrow.edit', $book->id) }}" class="btn btn-success" title="edit"><i class="fas fa-edit"></i></a>
                                         </td>
                                     </tr>
                                 @empty

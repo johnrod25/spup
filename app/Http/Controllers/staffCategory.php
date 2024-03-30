@@ -7,24 +7,15 @@ use App\Http\Requests\StorecategoryRequest;
 use App\Http\Requests\UpdatecategoryRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-class CategoryController extends Controller
+use Illuminate\Http\Request;
+
+class staffCategory extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        if(session()->get('usertype') == 1){
-            return view('category.index', [
-                'categories' => category::get()
-            ]);
-        } else {
-            return view('category.staff_index', [
-                'categories' => category::get()
-            ]);
-        }
+        return view('category.index', [
+            'categories' => category::get()
+        ]);
 
     }
 
@@ -32,19 +23,11 @@ class CategoryController extends Controller
     {
         $items = book::where('category_id', $id)->get();
         $cat_name = category::where('id', $id)->get();
-        if(session()->get('usertype') == 1){
-            return view('category.items', [
-                'books' => $items,
-                'cat_name' =>$cat_name[0]['name'],
-                'cat_id' =>$id,
-            ]);
-        } else {
-            return view('category.staff_items', [
-                'books' => $items,
-                'cat_name' =>$cat_name[0]['name'],
-                'cat_id' =>$id,
-            ]);
-        }
+        return view('category.items', [
+            'books' => $items,
+            'cat_name' =>$cat_name[0]['name'],
+            'cat_id' =>$id,
+        ]);
 
     }
     /**

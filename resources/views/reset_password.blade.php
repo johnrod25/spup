@@ -1,6 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.header')
 @section('content')
-    <div id="admin-content">
+    <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content-header">
+        <div class="container-fluid mt-2">
+
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -39,10 +44,26 @@
                                 </div>
                             @enderror
                         </div>
-                        <input type="submit" class="btn btn-danger" value="Update" required>
+                        @if(session()->has('error_message'))
+                            <div class="alert alert-danger">
+                                {{ session()->get('error_message') }}
+                            </div>
+                        @endif
+                        @if(session()->has('success_message'))
+                            <div class="alert alert-success">
+                                {{ session()->get('success_message') }}
+                            </div>
+                        @endif
+                        <input type="submit" class="btn btn-success" value="Update" required>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+
+        </div>
+    </section>
+     <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
 @endsection

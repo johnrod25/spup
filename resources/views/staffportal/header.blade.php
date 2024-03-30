@@ -34,6 +34,12 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+        <li>
+            <a href="{{ route('borrows') }}"  class="btn btn-default btn-flat rounded mx-3">
+                <i class="fa fa-solid fa-bell text-success" style="font-size:20px;"></i>
+                <span class="text-primary" id="notif_count">{{ session('notif'); }}</span>
+            </a>        
+        </li>
         <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('assets/dist/img/user-solid.svg') }}" class="user-image img-circle elevation-2" alt="User Image">      
@@ -55,6 +61,13 @@
                         </form>
               </li>
             </ul>
+        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+        </li> -->
+    </ul>
         </li>
         <!-- <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -105,25 +118,57 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('inventory') }}" class="nav-link text-white">
+                            <a href="{{ route('category.views', 14) }}" class="nav-link text-white">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p class="text-white">Items</p>
+                                <p class="text-white">Chemistry</p>
                             </a>
                         </li>
                     </ul>   
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('categories') }}" class="nav-link text-white">
+                            <a href="{{ route('category.views', 12) }}" class="nav-link text-white">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p class="text-white">Categories</p>
+                                <p class="text-white">Medicine/Med. Tech</p>
                             </a>
                         </li>
                     </ul>   
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('category.views', 11) }}" class="nav-link text-white">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p class="text-white">Pharmacy</p>
+                            </a>
+                        </li>
+                    </ul> 
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('category.views', 15) }}" class="nav-link text-white">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p class="text-white">Physics</p>
+                            </a>
+                        </li>
+                    </ul> 
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('category.views', 16) }}" class="nav-link text-white">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p class="text-white">Chemicals/Reagents</p>
+                            </a>
+                        </li>
+                    </ul> 
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('category.views', 17) }}" class="nav-link text-white">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p class="text-white">Glassware</p>
+                            </a>
+                        </li>
+                    </ul> 
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('transactions') }}" class="nav-link text-white">
                         <i class="nav-icon fas fa-handshake"></i>
-                        <p class="text-white">Borrow</p>
+                        <p class="text-white">Transactions</p>
                     </a>
                 </li>
             </ul>
@@ -189,6 +234,20 @@
 
 <script>
       $(document).ready(function() {
+
+        setInterval(function () {
+            $.ajax({
+                type: 'get',
+                url: "/notification",
+                success: function(response){
+                    console.log(response.notif)
+                    document.getElementById('notif_count').innerText =  response.notif;
+                    // $('#notif_count').val() = response.notif;
+                    // window.location.href = "borrows";
+                }
+            });              
+        }, 5000);
+        
     $('#example').DataTable();
     let notif = JSON.parse(localStorage.getItem('Notif'));
     if(notif != null){

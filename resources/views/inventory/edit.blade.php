@@ -46,46 +46,52 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label>Quantity</label>
-                            <input type="number" class="form-control @error('name') isinvalid @enderror"
-                                placeholder="Quantity" name="quantity" value="{{ $book->quantity }}" >
-                            @error('quantity')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Unit Type</label>
-                            <input type="text" class="form-control @error('type') isinvalid @enderror"
-                                placeholder="Unit Type" name="type" value="{{ $book->type }}" >
-                            @error('type')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Quantity</label>
+                                <input type="number" class="form-control @error('name') isinvalid @enderror"
+                                    placeholder="Quantity" name="quantity" value="{{ $book->quantity }}" >
+                                @error('quantity')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Unit Type</label>
+                                <input type="text" class="form-control @error('type') isinvalid @enderror"
+                                    placeholder="Unit Type" name="type" value="{{ $book->type }}" >
+                                @error('type')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                         
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control @error('status2') isinvalid @enderror "
+                                name="status2" >
+                                <option value="Functional" <?= $book->status2 == 'Functional' ? 'selected': '' ?>>Functional</option>
+                                <option value="Not Functional" <?= $book->status2 == 'Not Functional' ? 'selected': '' ?>>Not Functional</option>
+                            </select>
+                            @error('status2')
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                         
                         <div class="form-group">
                             <label>Location</label>
-                            <select class="form-control @error('publisher_id') isinvalid @enderror "
-                                name="publisher_id" >
-                                <option value="">Select Location</option>
-                                @foreach ($publishers as $publisher)
-                                    @if ($publisher->id == $book->publisher_id)
-                                        <option value="{{ $publisher->id }}" selected>{{ $publisher->name }}</option>
-                                    @else
-                                        <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @error('publisher_id')
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <input type="text" class="form-control @error('location') isinvalid @enderror"
+                                    placeholder="Location" name="location" value="{{ $book->location }}" >
+                                @error('location')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                         </div>
                         <div class="form-group">
                             <label>Inventory Done by</label>

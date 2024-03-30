@@ -17,7 +17,7 @@ class AutherController extends Controller
     public function index()
     {
         return view('staff.index', [
-            'authors' => auther::Paginate(10)
+            'authors' => auther::get()
         ]);
     }
 
@@ -39,12 +39,16 @@ class AutherController extends Controller
      */
     public function store(StoreautherRequest $request)
     {
-        auther::create($request->validated());
+        auther::create([
+            'id_number' => $request->id_number,
+            'name' => $request->name,
+        ])->save();
 
         $data = User::create($request->validated() + [
+            'auther_id' => auther::latest()->first()->id,
             'name' => $request->name,
-            'username' => $request->id_number,
-            'password' => bcrypt($request->name.$request->id_number),
+            'username' => $request->username,
+            'password' => bcrypt($request->username.$request->id_number),
             'usertype' => 2,
         ]);
         $data->save();

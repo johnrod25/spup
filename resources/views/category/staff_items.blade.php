@@ -58,11 +58,11 @@
                                 </td> -->
                                 <td class="edit row">
                                     <a href="{{ route('inventory.edit', $book) }}" class="btn btn-success mr-3" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('inventory.destroy', $book) }}" method="post"
+                                    <!-- <form action="{{ route('inventory.destroy', $book) }}" method="post"
                                         class="form-hidden">
                                         <button class="btn btn-danger delete-book" title="Delete Item"><i class="fas fa-trash"></i></button>
                                         @csrf
-                                    </form>
+                                    </form> -->
                                 </td>
                             </tr>
                         @empty

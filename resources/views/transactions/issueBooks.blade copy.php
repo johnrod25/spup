@@ -10,13 +10,13 @@
             <div class="card">               
                 <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <h3>Manage Transactions</h3>
-                    <a class="add-new btn btn-primary" href="{{ route('transaction.create') }}"><i class="fas fa-plus"></i> Add Transaction</a>
+                    <h3>Transactions</h3>
+                    <a class="add-new btn btn-primary" href="{{ route('transaction.create') }}">Add Transaction</a>
                 </div>
                 <hr class="hr">
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="example" class="table table-bordered table-striped table-hover">
+                        <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
                                 <th>Id Number</th>
@@ -42,21 +42,19 @@
                                         <td>{{ $book->issue_date->format('d M, Y') }}</td>
                                         <td>{{ $book->return_date->format('d M, Y') }}</td>
                                         <td>
-                                            @if ($book->issue_status == 'N')
-                                                <span class='badge badge-primary'>Pending</span>
-                                            @elseif ($book->issue_status == 'Y')
+                                            @if ($book->issue_status == 'Y')
                                                 <span class='badge badge-success'>Returned</span>
                                             @else
                                                 <span class='badge badge-danger'>Issued</span>
                                             @endif
                                         </td>
                                         <td class="edit">
-                                            <a href="{{ route('transaction.edit', $book->id) }}" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                                            <a href="{{ route('transaction.edit', $book->id) }}" class="btn btn-success">Edit</a>
                                         </td>
                                         <td class="delete">
                                             <form action="{{ route('transaction.destroy', $book) }}" method="post"
                                                 class="form-hidden">
-                                                <button class="btn btn-danger"> <i class="fas fa-trash"></i> Delete</button>
+                                                <button class="btn btn-danger">Delete</button>
                                                 @csrf
                                             </form>
                                         </td>
@@ -68,6 +66,7 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        {{ $books->links('vendor/pagination/bootstrap-4') }}
                     </div>
                 </div>
 

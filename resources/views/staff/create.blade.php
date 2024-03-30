@@ -36,7 +36,16 @@
                             </div>
                         @enderror
                     </div>
-                    <input type="submit" name="save" class="btn btn-danger" value="Save" required>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control @error('username') isinvalid @enderror" placeholder="Username" name="username" value="{{ old('username') }}" required>
+                        @error('username')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <input type="submit" name="save" class="btn btn-success" value="Save" required>
                 </form>
                 </div>
                 </div>

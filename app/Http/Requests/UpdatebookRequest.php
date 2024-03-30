@@ -28,7 +28,7 @@ class UpdatebookRequest extends FormRequest
             'type' => 'required',
             'category_id' => 'required',
             'author_id' => 'required',
-            'publisher_id' => 'required',
+            'location' => 'required',
         ];
     }
 }

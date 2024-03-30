@@ -39,7 +39,7 @@
                             <tr>
                                 <td>{{ $book->quantity.' '.$book->type }}</td>
                                 <td>{{ $book->name }}</td>
-                                <td>{{ $book->location }}</td>
+                                <td>{{ $book->publisher->name }}</td>
                                 <td>{{ $book->status2 }}</td>
                                 <td>
                                      @if ($book->quantity > 0)

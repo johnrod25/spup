@@ -10,7 +10,7 @@
             <div class="card">               
                 <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <h3>All Staff</h3>
+                    <h3>Manage Staff</h3>
                     <a class="add-new btn btn-primary" href="{{ route('staff.create') }}"><i class="fas fa-plus"></i> Add Staff</a>
                 </div>
                 <hr class="hr">
@@ -19,8 +19,8 @@
                             <tr>
                             <th>ID Number</th>
                             <th>Name</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Actions</th>
+                            <!-- <th>Delete</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -28,16 +28,17 @@
                                 <tr>
                                     <td>{{ $auther->id_number }}</td>
                                     <td>{{ $auther->name }}</td>
-                                    <td class="edit">
-                                        <a href="{{ route('staff.edit', $auther) }}" class="btn btn-success"><i class="fas fa-edit"></i> Edit</a>
+                                    <td class="d-flex justify-content-center">
+                                        <a href="{{ route('staff.edit', $auther) }}" title="Edit Staff" class="btn btn-success mr-3"><i class="fas fa-edit"></i></a>
+                                        <a href="{{ route('staff.destroy', $auther->id) }}" title="Delete Staff" class="btn btn-danger delete-author"><i class="fas fa-trash "></i></a>
                                     </td>
-                                    <td class="delete">
+                                    <!-- <td class="delete">
                                         <form action="{{ route('staff.destroy', $auther->id) }}" method="post"
                                             class="form-hidden">
                                             <button class="btn btn-danger delete-author"><i class="fas fa-trash "></i> Delete</button>
                                             @csrf
                                         </form>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             @empty
                                 <tr>

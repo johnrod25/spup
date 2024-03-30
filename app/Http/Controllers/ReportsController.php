@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\book;
 use App\Models\book_issue;
 use Illuminate\Http\Request;
-
+use App\Models\borrow;
 class ReportsController extends Controller
 {
     public function index()
     {
-        return view('report.index');
+        return view('report.indexx', [
+            'books' => borrow::where('issue_status', 'X')->get()
+        ]);
     }
 
     public function date_wise()

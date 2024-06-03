@@ -13,6 +13,7 @@ use App\Models\settings;
 use App\Models\student;
 use \Illuminate\Http\Request;
 use Carbon\Carbon;
+
 class BookIssueController extends Controller
 {
     /**
@@ -23,7 +24,7 @@ class BookIssueController extends Controller
     public function index()
     {
         return view('transactions.index', [
-            'books' => borrow::where('approve','!=', 0)->get()
+            'books' => borrow::where('approve', '!=', 0)->get()
         ]);
     }
 
@@ -58,7 +59,7 @@ class BookIssueController extends Controller
     }
     public function updateitem($id)
     {
-        return response(['success' => 'Employee created successfully.','items' => book::where('category_id',$id)->get()]);
+        return response(['success' => 'Employee created successfully.', 'items' => book::where('category_id', $id)->get()]);
     }
     /**
      * Store a newly created resource in storage.
@@ -69,29 +70,29 @@ class BookIssueController extends Controller
     public function store(Storebook_issueRequest $request)
     {
         $book = book::find($request->book_id);
-        if($book->quantity >= $request->quantity){
-        $book->status = 'N';
-        $book->quantity = $book->quantity - $request->quantity;
-        // $book->quantity = '1';
-        $book->save();
-        $issue_date = date('Y-m-d');
-        $return_date = date('Y-m-d', strtotime("+" . (settings::latest()->first()->return_days) . " days"));
-        $data = book_issue::create($request->validated() + [
-            'student_id' => $request->student_id,
-            'requester' => $request->requester,
-            'book_id' => $request->book_id,
-            'quantity' => $request->quantity,
-            'issue_date' => $issue_date,
-            'return_date' => $return_date,
-            'issue_status' => 'N',
-            'approve' => 0,
-        ]);
-        $data->save();
-        session()->put('notif', book_issue::whereDate('created_at', Carbon::today())->count());
-        return redirect()->route('transactions');
-    }else{
-        return redirect()->back()->withErrors(['error_message' => 'Please select a quantity lower than stocks.']);
-    }
+        if ($book->quantity >= $request->quantity) {
+            $book->status = 'N';
+            $book->quantity = $book->quantity - $request->quantity;
+            // $book->quantity = '1';
+            $book->save();
+            $issue_date = date('Y-m-d');
+            $return_date = date('Y-m-d', strtotime("+" . (settings::latest()->first()->return_days) . " days"));
+            $data = book_issue::create($request->validated() + [
+                'student_id' => $request->student_id,
+                'requester' => $request->requester,
+                'book_id' => $request->book_id,
+                'quantity' => $request->quantity,
+                'issue_date' => $issue_date,
+                'return_date' => $return_date,
+                'issue_status' => 'N',
+                'approve' => 0,
+            ]);
+            $data->save();
+            session()->put('notif', book_issue::whereDate('created_at', Carbon::today())->count());
+            return redirect()->route('transactions');
+        } else {
+            return redirect()->back()->withErrors(['error_message' => 'Please select a quantity lower than stocks.']);
+        }
     }
 
     /**
@@ -102,7 +103,7 @@ class BookIssueController extends Controller
     public function edit($id)
     {
         // calculate the total fine  (total days * fine per day)
-        $book = book_issue::where('id',$id)->get()->first();
+        $book = book_issue::where('id', $id)->get()->first();
         $first_date = date_create(date('Y-m-d'));
         $last_date = date_create($book->return_date);
         $diff = date_diff($first_date, $last_date);
@@ -144,7 +145,7 @@ class BookIssueController extends Controller
         $book->return_day = now();
         $book->save();
         $bookk = book::find($book->book_id);
-        $bookk->status= 'Y';
+        $bookk->status = 'Y';
         $bookk->save();
         return redirect()->route('transactions');
     }
@@ -160,6 +161,4 @@ class BookIssueController extends Controller
         book_issue::find($id)->delete();
         return redirect()->route('transactions');
     }
-
-    
 }
